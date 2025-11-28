@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Cadastro de Cursos{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Cadastro de Cursos</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {{ wtf.quick_form(form) }}
+        <br>
+    </div>
+</div>
+
+<h3>Relação de cursos cadastrados</h3>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Curso</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for curso in cursos %}
+        <tr>
+            <td><strong>{{ curso.nome }}</strong></td>
+            <td>{{ curso.descricao }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">Nenhum curso cadastrado ainda.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
