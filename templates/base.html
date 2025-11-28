@@ -25,7 +25,6 @@
                 <li><a href="/">Início</a></li>
                 <li><a href="/rotainexistente">Erro 404</a></li>
 
-                <!-- Dropdown Usuário -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Usuário <span class="caret"></span>
@@ -53,7 +52,6 @@
                         </ul>
                     </li>
                 {% else %}
-                    <!-- Account dropdown: groups login, register and reset password -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Conta <span class="caret"></span>
@@ -68,6 +66,9 @@
                 {% endif %}
 
                 <li><a href="/usuarios">Banco de Dados</a></li>
+                
+                <li><a href="{{ url_for('main.cursos') }}">Cadastro de Cursos</a></li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         E-mail <span class="caret"></span>
@@ -87,7 +88,6 @@
 <div class="container mt-4">
     {% block page_content %}{% endblock %}
 
-    <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
