@@ -94,8 +94,15 @@ class User(UserMixin, db.Model):
 	def __repr__(self):
 		return '<User %r>' % self.username
 
-
-
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
+
+class Curso(db.Model):
+    __tablename__ = 'cursos'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), unique=True, index=True)
+    descricao = db.Column(db.String(250))
+
+    def __repr__(self):
+        return '<Curso %r>' % self.nome
