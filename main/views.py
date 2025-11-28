@@ -7,8 +7,30 @@ from .. import db
 from ..models import User
 from flask_login import login_user, login_required, current_user
 import secrets
-from flask import render_template
+from ..models import User, Curso  # Adicionei o Curso aqui
+from .forms import NomeForm, CadastroForm, CursoForm # Adicionei o CursoForm aqui
+from .. import db
 
+@bp.route('/cursos', methods=['GET', 'POST'])
+def cursos():
+    form = CursoForm()
+    if form.validate_on_submit():
+        # Captura os dados do formulário e cria o objeto
+        novo_curso = Curso(
+            nome=form.nome.data,
+            descricao=form.descricao.data
+        )
+        # Salva no banco de dados
+        db.session.add(novo_curso)
+        db.session.commit()
+        # Limpa o formulário e recarrega a página (Post/Redirect/Get)
+        return redirect(url_for('.cursos'))
+    
+    # Busca todos os cursos ordenados por nome (Ascendente)
+    lista_cursos = Curso.query.order_by(Curso.nome.asc()).all()
+    
+    return render_template('cursos.html', form=form, cursos=lista_cursos)
+    
 # in-memory data stores (kept for compatibility with the original app)
 usuarios = [
     {"nome": "Lucca", "funcao": "Administrador"},
