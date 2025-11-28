@@ -1,34 +1,28 @@
 from flask import render_template, redirect, url_for, request, flash, jsonify, current_app
 from datetime import datetime
-from . import bp
-from .forms import CadastroForm, NomeForm, LoginForm
-from ..email import send_email
-from .. import db
-from ..models import User
 from flask_login import login_user, login_required, current_user
 import secrets
-from ..models import User, Curso  # Adicionei o Curso aqui
-from .forms import NomeForm, CadastroForm, CursoForm # Adicionei o CursoForm aqui
-from .. import db
+
+# CORREÇÃO DE IMPORTS PARA ESTRUTURA PLANA:
+from . import bp  # Pega o blueprint desta pasta
+from models import User, Curso # Importa direto da raiz (sem ..)
+from email_app import send_email # Se seu arquivo de email chamar 'email.py' na raiz, pode dar conflito com biblioteca padrão. Se der erro, avise.
+from .forms import NomeForm, CadastroForm, LoginForm, CursoForm
+from __init__ import db # Pega o db do __init__ da raiz
 
 @bp.route('/cursos', methods=['GET', 'POST'])
 def cursos():
     form = CursoForm()
     if form.validate_on_submit():
-        # Captura os dados do formulário e cria o objeto
         novo_curso = Curso(
             nome=form.nome.data,
             descricao=form.descricao.data
         )
-        # Salva no banco de dados
         db.session.add(novo_curso)
         db.session.commit()
-        # Limpa o formulário e recarrega a página (Post/Redirect/Get)
         return redirect(url_for('.cursos'))
     
-    # Busca todos os cursos ordenados por nome (Ascendente)
     lista_cursos = Curso.query.order_by(Curso.nome.asc()).all()
-    
     return render_template('cursos.html', form=form, cursos=lista_cursos)
     
 # in-memory data stores (kept for compatibility with the original app)
