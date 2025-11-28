@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, SelectField, BooleanField
-from wtforms.validators import DataRequired, Email, Optional
-
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, PasswordField
+from wtforms.validators import DataRequired, Length, Optional, Email
 
 class CadastroForm(FlaskForm):
     prontuario = StringField('Prontuário', validators=[Optional()])
@@ -27,3 +26,8 @@ class LoginForm(FlaskForm):
     usuario = StringField('Usuário ou E-mail', validators=[DataRequired()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Entrar')
+    
+class CursoForm(FlaskForm):
+    nome = StringField('Qual é o nome do curso?', validators=[DataRequired()])
+    descricao = TextAreaField('Descrição (250 caracteres)', validators=[Length(max=250)])
+    submit = SubmitField('Cadastrar')
